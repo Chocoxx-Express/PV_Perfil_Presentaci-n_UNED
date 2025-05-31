@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil Estudiante UNED</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #F4E3B2;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .profile-container {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      border-radius: 20px;
+      max-width: 700px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 6px 6px 12px rgba(49, 14, 16, 0.6),
+                  -6px -6px 12px rgba(244, 227, 178, 0.15),
+                  inset 3px 3px 6px rgba(69, 70, 42, 0.7),
+                  inset -3px -3px 6px rgba(244, 227, 178, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .tabs { display: flex; gap: 10px; border-bottom: 1px solid #94726860; margin-bottom: 20px; }
+    .tab {
+      padding: 10px 20px;
+      background-color: #1b1313;
+      border-radius: 10px 10px 0 0;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #d4c5a3;
+      transition: all 0.3s ease;
+    }
+    .tab.active {
+      background-color: #310E10;
+      color: #F4E3B2;
+      box-shadow: 2px -2px 6px rgba(49, 14, 16, 0.6),
+                  inset 1px 1px 2px rgba(69, 70, 42, 0.6);
+    }
+    .tab-content { display: none; flex-direction: column; gap: 20px; }
+    .tab-content.active { display: flex; }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #94726840;
+      padding-bottom: 15px;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 2px 2px 4px rgba(49, 14, 16, 0.6),
+                  -2px -2px 4px rgba(244, 227, 178, 0.2),
+                  inset 1px 1px 3px rgba(69, 70, 42, 0.7),
+                  inset -1px -1px 3px rgba(244, 227, 178, 0.1);
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #F4E3B2;
+    }
+    .data-block, .interests, .fragments, .exploraciones, .interacciones {
+      background: #000000;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 2px 2px 4px rgba(49, 14, 16, 0.6),
+                  -2px -2px 4px rgba(244, 227, 178, 0.2),
+                  inset 1px 1px 2px rgba(69, 70, 42, 0.6),
+                  inset -1px -1px 2px rgba(244, 227, 178, 0.1);
+    }
+    .data-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #dcdcdc;
+      margin-bottom: 5px;
+    }
+    .material-icons { font-size: 20px; color: #947268; }
+    .interests-title, .fragments-title, .exploraciones-title {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #F4E3B2;
+      border-bottom: 1px solid #94726850;
+      padding-bottom: 6px;
+    }
+    .interests-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .interest-tag {
+      background: #310E10;
+      color: #F4E3B2;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      box-shadow: 1px 1px 2px rgba(49, 14, 16, 0.5),
+                  -1px -1px 2px rgba(244, 227, 178, 0.2);
+    }
+    .fragment-list, .exploraciones-section, .interacciones-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .fragment {
+      background: #1a0e0f;
+      color: #d3c6a3;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+    .exploracion {
+      background: #1b1313;
+      color: #F4E3B2;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+    .exploracion strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1rem;
+      color: #d0bb8c;
+    }
+    .pregunta {
+      background: #201717;
+      color: #d4c5a3;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .mystery {
+      font-style: italic;
+      color: #947268;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .contact-button {
+      margin: 0 auto;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border-radius: 14px;
+      background: #000000;
+      color: #fff;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 2px 2px 5px rgba(49, 14, 16, 0.6), 
+                  -2px -2px 5px rgba(244, 227, 178, 0.2),
+                  inset 1px 1px 3px rgba(69, 70, 42, 0.7),
+                  inset -1px -1px 3px rgba(244, 227, 178, 0.1);
+    }
+    .contact-button:hover { transform: scale(1.05); }
+    .hidden-fields { display: none; }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('perfil')">Perfil Principal</div>
+      <div class="tab" onclick="switchTab('academico')">Exploraciones Académicas</div>
+    </div>
+
+    <div id="perfil" class="tab-content active">
+      <div class="profile-header">
+        <div class="avatar">
+          <img src="Logo/Logo.png" alt="Logo perfil UNED">
+        </div>
+        <div class="profile-name">Brayan Prendas Vindas</div>
+      </div>
+
+      <div class="data-block">
+        <div class="data-item"><span class="material-icons">public</span>Nacido lejos, conectado aquí.</div>
+        <div class="data-item"><span class="material-icons">place</span>Residencia: Se mantiene en discreción.</div>
+        <div class="data-item"><span class="material-icons">school</span>Rol: Estudiante UNED.</div>
+        <div class="data-item"><span class="material-icons">favorite</span>Interés principal: intereses diversos y cambiantes.</div>
+        <div class="data-item"><span class="material-icons">visibility_off</span>Sobre mí: Prefiero que me descubras poco a poco.</div>
+      </div>
+
+      <div class="interests">
+        <div class="interests-title">Intereses & Pistas</div>
+        <div class="interests-list">
+          <div class="interest-tag">Aprendizaje</div>
+          <div class="interest-tag">Observar</div>
+          <div class="interest-tag">Descubrir</div>
+          <div class="interest-tag">Analizar</div>
+          <div class="interest-tag">Crear</div>
+          <div class="interest-tag">Reinterpretar</div>
+        </div>
+      </div>
+
+      <div class="fragments">
+        <div class="fragments-title">Fragmentos</div>
+        <div class="fragment-list">
+          <div class="fragment">“Hay señales que no buscan ser vistas, solo leídas por quien debe.”</div>
+          <div class="fragment">“Hay pistas donde nadie preguntó.”</div>
+          <div class="fragment">“Pienso, luego me distraigo.”</div>
+        </div>
+      </div>
+
+      <div class="mystery">A veces lo más revelador no está en lo que se dice, sino en lo que se omite...</div>
+
+      <div class="hidden-fields">
+        <input id="titulo" value="Consulta desde el perfil estudiantil UNED">
+        <textarea id="mensaje">Hola, estoy interesado en conversar más sobre los temas tratados en el perfil.</textarea>
+      </div>
+
+      <button class="contact-button" onclick="enviarMensajeEmail(event)">Contactar</button>
+    </div>
+
+    <div id="academico" class="tab-content">
+      <div class="exploraciones">
+        <div class="exploraciones-title">Exploraciones Académicas</div>
+        <div class="exploraciones-section">
+          <div class="exploracion">
+            <strong>Historia de Costa Rica</strong>
+            "La colonización no solo marcó un cambio político, sino también el inicio de una redefinición cultural, económica y social del territorio costarricense."  
+            <br/>Entender los procesos de colonización permite reconocer las raíces de nuestra identidad, las estructuras heredadas y los desafíos contemporáneos del país.
+          </div>
+          <div class="exploracion">
+            <strong>Ética y Política</strong>
+            "El fin justifica los medios." — Nicolás Maquiavelo  
+            <br/>Maquiavelo abrió la puerta a una visión pragmática del poder: no se trata solo de moralidad, sino de comprender cómo mantener y ejercer el control en contextos reales. Esta materia invita a explorar el equilibrio entre ética y estrategia.
+          </div>
+        </div>
+      </div>
+
+      <div class="interacciones">
+        <div class="interests-title">Interacciones</div>
+        <div class="interacciones-list">
+          <div class="pregunta">¿Ustedes qué opinan sobre cómo influyó la colonización en nuestras costumbres actuales?</div>
+          <div class="pregunta">¿Ya leyeron algo interesante de Maquiavelo que les haya sorprendido?</div>
+          <div class="pregunta">¿Se les hizo complicado el análisis del tema de independencia en el último material?</div>
+          <div class="pregunta">¿Cuál creen que sería un ejemplo moderno del pensamiento maquiavélico en la política de Costa Rica?</div>
+          <div class="pregunta">¿Han encontrado algún documental o serie útil para complementar lo de Historia?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    function enviarMensajeEmail(event) {
+      event.preventDefault();
+      const titulo = document.getElementById('titulo').value;
+      const mensaje = document.getElementById('mensaje').value;
+      const email = 'brayanprendavindas@gmail.com';
+      const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(titulo)}&body=${encodeURIComponent(mensaje)}`;
+      window.open(mailtoLink, '_blank');
+    }
+  </script>
+</body>
+</html>
